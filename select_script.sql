@@ -21,7 +21,7 @@ where musician_name not like '% %';
 --2.5
 select name
 from track t
-where name ilike '%мой%' or name ilike '%my%';
+where string_to_array(lower(name), ' ') && ARRAY['мой', 'my'];
 
 --3.1
 select name_genre "Жанр", count(id_musician) "Количество исполнителей"
@@ -30,11 +30,10 @@ join genre_performer gp on gp.id_genre = mg.id_genre
 group by name_genre;
 
 --3.2
-select year "Год", count(name) "Количество треков"
+select count(id_track) "Количество треков"
 from track t
 join album a on t.id_album = a.id_album
-where year between 2019 and 2020
-group by year;
+where year between 2019 and 2020;
 
 --3.3
 select album_name "Альбом", avg(duration) "Средняя продолжительность"
